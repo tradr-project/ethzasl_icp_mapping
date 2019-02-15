@@ -378,12 +378,14 @@ void Mapper::processCloud(unique_ptr<DP> newPointCloud, const std::string& scann
 				stamp
 			), dimp1);
 	}
-	catch(tf::ExtrapolationException e)
+	catch(tf::TransformException e)
 	{
-		ROS_ERROR_STREAM("Extrapolation Exception. stamp = "<< stamp << " now = " << ros::Time::now() << " delta = " << ros::Time::now() - stamp);
+		ROS_ERROR_STREAM("Transform exception: " << e.what()
+		    << " stamp = " << stamp
+		    << " now = " << ros::Time::now()
+		    << " delta = " << ros::Time::now() - stamp);
 		return;
 	}
-
 
 	ROS_DEBUG_STREAM("TOdomToScanner(" << odomFrame<< " to " << scannerFrame << "):\n" << TOdomToScanner);
 	ROS_DEBUG_STREAM("TOdomToMap(" << odomFrame<< " to " << mapFrame << "):\n" << TOdomToMap);
